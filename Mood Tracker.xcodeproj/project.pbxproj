@@ -88,6 +88,7 @@
 		9DCA73932D05D53200AE2EF2 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		9DCA73972D05D5A400AE2EF2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9DCA739B2D05D5D200AE2EF2 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
+		9DCA73A32D05EA2C00AE2EF2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +143,7 @@
 		9DCA73242D02F3E700AE2EF2 = {
 			isa = PBXGroup;
 			children = (
+				9DCA73A32D05EA2C00AE2EF2 /* README.md */,
 				9DCA732F2D02F3E700AE2EF2 /* Mood Tracker */,
 				9DCA73402D02F3E800AE2EF2 /* Mood TrackerTests */,
 				9DCA734A2D02F3E800AE2EF2 /* Mood TrackerUITests */,
