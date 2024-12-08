@@ -22,6 +22,7 @@ struct Mood_TrackerApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authManager = AuthManager()
     @State private var isUserLoggedIn = false
+    @State private var isLoading = true
     @State private var authStateListenerHandle: AuthStateDidChangeListenerHandle?
     
     init() {
@@ -34,13 +35,19 @@ struct Mood_TrackerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            VStack {
-                if isUserLoggedIn {
-                    if let user = authManager.currentUser {
-                        UserDetailsView(user: user)
-                    }
+            Group {
+                if isLoading {
+                    ProgressView("Loading...")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color(.systemBackground))
                 } else {
-                    LoginView()
+                    if isUserLoggedIn {
+                        if let user = authManager.currentUser {
+                            UserDetailsView(user: user)
+                        }
+                    } else {
+                        LoginView()
+                    }
                 }
             }
             .onAppear {
@@ -54,9 +61,11 @@ struct Mood_TrackerApp: App {
                                             case .failure:
                                                 isUserLoggedIn = false
                                             }
+                                            isLoading = false
                                         }
                                     } else {
                                         isUserLoggedIn = false
+                                        isLoading = false
                                     }
                                 }
             }
