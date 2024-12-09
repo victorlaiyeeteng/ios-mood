@@ -43,9 +43,16 @@ struct MoodsView: View {
                                         .font(.body)
                                 }
                                 Spacer()
-                                Text(mood.timestamp, style: .time)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                                VStack(alignment: .trailing) {
+                                    if !isToday(mood.timestamp) {
+                                        Text(formatDate(mood.timestamp))
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    Text(formatTime(mood.timestamp))
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                    }
                             }
                         }
                     }
@@ -60,9 +67,16 @@ struct MoodsView: View {
                                         .font(.body)
                                 }
                                 Spacer()
-                                Text(mood.timestamp, style: .time)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                                VStack(alignment: .trailing) {
+                                    if !isToday(mood.timestamp) {
+                                        Text(formatDate(mood.timestamp))
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    Text(formatTime(mood.timestamp))
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                    }
                             }
                         }
                         .onDelete(perform: deleteMood)
@@ -117,7 +131,7 @@ struct MoodsView: View {
                         .padding()
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
-                                Button("Back") {
+                                Button("Cancel") {
                                     showAddMood = false
                                     newCaption = ""
                                     selectedEmoji = "😊"
@@ -151,6 +165,27 @@ struct MoodsView: View {
             let mood = viewModel.moods.filter { $0.uploader == currentUsername }[index]
             viewModel.deleteMood(moodId: mood.id)
         }
+    }
+    
+    func isToday(_ date: Date) -> Bool {
+        return Calendar.current.isDateInToday(date)
+    }
+    func formatDate(_ date: Date) -> String {
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+
+        if calendar.isDateInToday(date) {
+            return ""
+        } else {
+            formatter.dateFormat = "d MMM" // Format: Day/Month
+            return formatter.string(from: date)
+        }
+    }
+
+    func formatTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h.mm a" // Format: Time in 12-hour format
+        return formatter.string(from: date)
     }
 }
 
