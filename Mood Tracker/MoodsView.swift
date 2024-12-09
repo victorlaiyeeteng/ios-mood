@@ -10,6 +10,7 @@ import FirebaseAuth
 
 struct MoodsView: View {
     @StateObject private var viewModel = MoodsViewModel()
+    @State private var currentUsername = ""
     @State private var showAddMood = false
     @State private var newCaption = ""
     @State private var selectedEmoji = "😊"
@@ -20,7 +21,7 @@ struct MoodsView: View {
         NavigationView {
             VStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Welcome, \(Auth.auth().currentUser?.email ?? "User")")
+                    Text("Welcome, \(currentUsername.isEmpty ? "User" : currentUsername)")
                         .font(.headline)
                     Text("Here are your moods and your partner's moods:")
                         .font(.subheadline)
@@ -56,43 +57,67 @@ struct MoodsView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .sheet(isPresented: $showAddMood) {
-                    VStack(spacing: 16) {
-                        Text("How are you?")
-                            .font(.headline)
-                        Picker("Emoji", selection: $selectedEmoji) {
-                            ForEach(emojis, id: \.self) { emoji in
-                                Text(emoji).tag(emoji)
+                    NavigationView {
+                        VStack(spacing: 16) {
+                            Text("How are you?")
+                                .font(.headline)
+                            Picker("Emoji", selection: $selectedEmoji) {
+                                ForEach(emojis, id: \.self) { emoji in
+                                    Text(emoji).tag(emoji)
+                                }
                             }
-                        }
-                        .pickerStyle(.segmented)
-                        
-                        VStack(alignment: .leading) {
-                            Text("Caption")
-                                .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            ResizableTextField(text: $newCaption)
-                                .frame(minHeight: 40)
-                                .background(Color(UIColor.secondarySystemBackground))
-                                .cornerRadius(8)
-                                .padding(.horizontal, 4)
+                            .pickerStyle(.segmented)
+                            
+                            VStack(alignment: .leading) {
+                                Text("Caption")
+                                    .font(.subheadline)
+                                    .foregroundColor(.secondary)
+                                    .autocapitalization(.none)
+                                ResizableTextField(text: $newCaption)
+                                    .frame(minHeight: 40)
+                                    .background(Color(UIColor.secondarySystemBackground))
+                                    .cornerRadius(8)
+                                    .padding(.horizontal, 4)
+                            }
+                            .padding()
+                            
+                            Button("Share") {
+                                viewModel.uploadMood(emoji: selectedEmoji, caption: newCaption)
+                                showAddMood = false
+                                newCaption = ""
+                                selectedEmoji = "😊"
+                            }
+                            .buttonStyle(.borderedProminent)
+                            
+                            Spacer()
                         }
                         .padding()
-                        
-                        Button("Share") {
-                            viewModel.uploadMood(emoji: selectedEmoji, caption: newCaption)
-                            showAddMood = false
-                            newCaption = ""
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Back") {
+                                    showAddMood = false
+                                    newCaption = ""
+                                    selectedEmoji = "😊"
+                                }
+                            }
                         }
-                        .buttonStyle(.borderedProminent)
-                        
-                        Spacer()
+                        .navigationTitle("Share Mood")
                     }
-                    .padding()
                 }
             }
         }
         .navigationTitle("Moods")
         .onAppear {
+            if let userId = Auth.auth().currentUser?.uid {
+                AuthManager().fetchUserDetails(userId: userId) { result in
+                    switch result {
+                    case .success(let user):
+                        currentUsername = user.username
+                    case .failure(let error):
+                        print("Failed to fetch user details: \(error.localizedDescription)")
+                    }
+                }
+            }
             viewModel.fetchMoods()
         }
     }
