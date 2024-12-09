@@ -66,11 +66,19 @@ struct MoodsView: View {
                         }
                         .pickerStyle(.segmented)
                         
-                        TextField("Caption", text: $newCaption)
-                            .textFieldStyle(.roundedBorder)
-                            .padding()
+                        VStack(alignment: .leading) {
+                            Text("Caption")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                            ResizableTextField(text: $newCaption)
+                                .frame(minHeight: 40)
+                                .background(Color(UIColor.secondarySystemBackground))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 4)
+                        }
+                        .padding()
                         
-                        Button("Upload") {
+                        Button("Share") {
                             viewModel.uploadMood(emoji: selectedEmoji, caption: newCaption)
                             showAddMood = false
                             newCaption = ""
