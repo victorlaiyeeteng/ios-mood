@@ -48,7 +48,6 @@ struct MoodsView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
-//                        .onDelete(perform: deleteMood)
                     }
 
                     Section(header: Text("you")) {
@@ -66,6 +65,7 @@ struct MoodsView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
+                        .onDelete(perform: deleteMood)
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
@@ -143,6 +143,13 @@ struct MoodsView: View {
                 }
             }
             viewModel.fetchMoods()
+        }
+    }
+    
+    private func deleteMood(at offsets: IndexSet) {
+        for index in offsets {
+            let mood = viewModel.moods.filter { $0.uploader == currentUsername }[index]
+            viewModel.deleteMood(moodId: mood.id)
         }
     }
 }

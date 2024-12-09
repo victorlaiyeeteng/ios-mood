@@ -62,4 +62,16 @@ class MoodsViewModel: ObservableObject {
             }
         }
     }
+    
+    func deleteMood(moodId: String) {
+        db.collection("moods").document(moodId).delete { error in
+            if let error = error {
+                print("Error deleting mood: \(error.localizedDescription)")
+                return
+            }
+            DispatchQueue.main.async {
+                self.moods.removeAll {$0.id == moodId }
+            }
+        }
+    }
 }
