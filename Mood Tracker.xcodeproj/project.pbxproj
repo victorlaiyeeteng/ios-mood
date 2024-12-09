@@ -53,6 +53,21 @@
 		9DCA739C2D05D5D200AE2EF2 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA739B2D05D5D200AE2EF2 /* UserDetailsView.swift */; };
 		9DCA739D2D05D5D200AE2EF2 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA739B2D05D5D200AE2EF2 /* UserDetailsView.swift */; };
 		9DCA739E2D05D5D200AE2EF2 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA739B2D05D5D200AE2EF2 /* UserDetailsView.swift */; };
+		9DCA73A52D06E09B00AE2EF2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73A42D06E09B00AE2EF2 /* MainTabView.swift */; };
+		9DCA73A62D06E09B00AE2EF2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73A42D06E09B00AE2EF2 /* MainTabView.swift */; };
+		9DCA73A72D06E09B00AE2EF2 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73A42D06E09B00AE2EF2 /* MainTabView.swift */; };
+		9DCA73A92D06E11F00AE2EF2 /* MoodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73A82D06E11F00AE2EF2 /* MoodsView.swift */; };
+		9DCA73AA2D06E11F00AE2EF2 /* MoodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73A82D06E11F00AE2EF2 /* MoodsView.swift */; };
+		9DCA73AB2D06E11F00AE2EF2 /* MoodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73A82D06E11F00AE2EF2 /* MoodsView.swift */; };
+		9DCA73AD2D06E13D00AE2EF2 /* ReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73AC2D06E13D00AE2EF2 /* ReactionsView.swift */; };
+		9DCA73AE2D06E13D00AE2EF2 /* ReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73AC2D06E13D00AE2EF2 /* ReactionsView.swift */; };
+		9DCA73AF2D06E13D00AE2EF2 /* ReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73AC2D06E13D00AE2EF2 /* ReactionsView.swift */; };
+		9DCA73B12D06E23500AE2EF2 /* Mood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B02D06E23500AE2EF2 /* Mood.swift */; };
+		9DCA73B22D06E23500AE2EF2 /* Mood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B02D06E23500AE2EF2 /* Mood.swift */; };
+		9DCA73B32D06E23500AE2EF2 /* Mood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B02D06E23500AE2EF2 /* Mood.swift */; };
+		9DCA73B52D06E52900AE2EF2 /* MoodsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B42D06E52900AE2EF2 /* MoodsViewModel.swift */; };
+		9DCA73B62D06E52900AE2EF2 /* MoodsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B42D06E52900AE2EF2 /* MoodsViewModel.swift */; };
+		9DCA73B72D06E52900AE2EF2 /* MoodsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B42D06E52900AE2EF2 /* MoodsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +104,11 @@
 		9DCA73972D05D5A400AE2EF2 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9DCA739B2D05D5D200AE2EF2 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 		9DCA73A32D05EA2C00AE2EF2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9DCA73A42D06E09B00AE2EF2 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		9DCA73A82D06E11F00AE2EF2 /* MoodsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodsView.swift; sourceTree = "<group>"; };
+		9DCA73AC2D06E13D00AE2EF2 /* ReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsView.swift; sourceTree = "<group>"; };
+		9DCA73B02D06E23500AE2EF2 /* Mood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mood.swift; sourceTree = "<group>"; };
+		9DCA73B42D06E52900AE2EF2 /* MoodsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +185,11 @@
 			isa = PBXGroup;
 			children = (
 				9DCA73302D02F3E700AE2EF2 /* Mood_TrackerApp.swift */,
+				9DCA73B42D06E52900AE2EF2 /* MoodsViewModel.swift */,
+				9DCA73AC2D06E13D00AE2EF2 /* ReactionsView.swift */,
+				9DCA73A82D06E11F00AE2EF2 /* MoodsView.swift */,
+				9DCA73B02D06E23500AE2EF2 /* Mood.swift */,
+				9DCA73A42D06E09B00AE2EF2 /* MainTabView.swift */,
 				9DCA73322D02F3E700AE2EF2 /* ContentView.swift */,
 				9DCA738F2D05D50700AE2EF2 /* User.swift */,
 				9DCA73932D05D53200AE2EF2 /* AuthManager.swift */,
@@ -364,12 +389,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DCA73B12D06E23500AE2EF2 /* Mood.swift in Sources */,
 				9DCA73332D02F3E700AE2EF2 /* ContentView.swift in Sources */,
 				9DCA73942D05D53300AE2EF2 /* AuthManager.swift in Sources */,
 				9DCA73312D02F3E700AE2EF2 /* Mood_TrackerApp.swift in Sources */,
 				9DCA73982D05D5A400AE2EF2 /* LoginView.swift in Sources */,
+				9DCA73AD2D06E13D00AE2EF2 /* ReactionsView.swift in Sources */,
+				9DCA73A52D06E09B00AE2EF2 /* MainTabView.swift in Sources */,
 				9DCA739C2D05D5D200AE2EF2 /* UserDetailsView.swift in Sources */,
 				9DCA73902D05D50700AE2EF2 /* User.swift in Sources */,
+				9DCA73B52D06E52900AE2EF2 /* MoodsViewModel.swift in Sources */,
+				9DCA73A92D06E11F00AE2EF2 /* MoodsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,10 +408,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DCA739D2D05D5D200AE2EF2 /* UserDetailsView.swift in Sources */,
+				9DCA73B62D06E52900AE2EF2 /* MoodsViewModel.swift in Sources */,
+				9DCA73B22D06E23500AE2EF2 /* Mood.swift in Sources */,
+				9DCA73AE2D06E13D00AE2EF2 /* ReactionsView.swift in Sources */,
 				9DCA73912D05D50700AE2EF2 /* User.swift in Sources */,
 				9DCA73952D05D53300AE2EF2 /* AuthManager.swift in Sources */,
+				9DCA73AA2D06E11F00AE2EF2 /* MoodsView.swift in Sources */,
 				9DCA73992D05D5A400AE2EF2 /* LoginView.swift in Sources */,
 				9DCA73422D02F3E800AE2EF2 /* Mood_TrackerTests.swift in Sources */,
+				9DCA73A62D06E09B00AE2EF2 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,12 +424,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DCA73B32D06E23500AE2EF2 /* Mood.swift in Sources */,
 				9DCA734E2D02F3E800AE2EF2 /* Mood_TrackerUITestsLaunchTests.swift in Sources */,
 				9DCA73962D05D53300AE2EF2 /* AuthManager.swift in Sources */,
 				9DCA734C2D02F3E800AE2EF2 /* Mood_TrackerUITests.swift in Sources */,
 				9DCA739A2D05D5A400AE2EF2 /* LoginView.swift in Sources */,
+				9DCA73AF2D06E13D00AE2EF2 /* ReactionsView.swift in Sources */,
+				9DCA73A72D06E09B00AE2EF2 /* MainTabView.swift in Sources */,
 				9DCA739E2D05D5D200AE2EF2 /* UserDetailsView.swift in Sources */,
 				9DCA73922D05D50700AE2EF2 /* User.swift in Sources */,
+				9DCA73B72D06E52900AE2EF2 /* MoodsViewModel.swift in Sources */,
+				9DCA73AB2D06E11F00AE2EF2 /* MoodsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

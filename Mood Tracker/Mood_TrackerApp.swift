@@ -42,9 +42,10 @@ struct Mood_TrackerApp: App {
                         .background(Color(.systemBackground))
                 } else {
                     if isUserLoggedIn {
-                        if let user = authManager.currentUser {
-                            UserDetailsView(user: user)
-                        }
+//                        if let user = authManager.currentUser {
+//                            UserDetailsView(user: user)
+//                        }
+                        MainTabView()
                     } else {
                         LoginView()
                     }
