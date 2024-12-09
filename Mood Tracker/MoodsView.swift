@@ -11,6 +11,7 @@ import FirebaseAuth
 struct MoodsView: View {
     @StateObject private var viewModel = MoodsViewModel()
     @State private var currentUsername = ""
+    @State private var partnerUsername = ""
     @State private var showAddMood = false
     @State private var newCaption = ""
     @State private var selectedEmoji = "😊"
@@ -23,29 +24,51 @@ struct MoodsView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Welcome, \(currentUsername.isEmpty ? "User" : currentUsername)")
                         .font(.headline)
-                    Text("Here are your moods and your partner's moods:")
+                    Text("Here's how you and \(partnerUsername) are feeling...")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
-                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, 40)
+                .padding(.vertical, 8)
                 
-                List(viewModel.moods) { mood in
-                    HStack {
-                        Text(mood.emoji)
-                            .font(.largeTitle)
-                        VStack(alignment: .leading) {
-                            Text(mood.caption)
-                                .font(.body)
-                            Text(mood.uploader)
-                                .font(.caption)
-                                .foregroundColor(.gray)
+                List {
+                    Section(header: Text(partnerUsername.isEmpty ? "user" : partnerUsername)) {
+                        ForEach(viewModel.moods.filter { $0.uploader != currentUsername }) { mood in
+                            HStack {
+                                Text(mood.emoji)
+                                    .font(.largeTitle)
+                                VStack(alignment: .leading) {
+                                    Text(mood.caption)
+                                        .font(.body)
+                                }
+                                Spacer()
+                                Text(mood.timestamp, style: .time)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
-                        Spacer()
-                        Text(mood.timestamp, style: .time)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+//                        .onDelete(perform: deleteMood)
+                    }
+
+                    Section(header: Text("you")) {
+                        ForEach(viewModel.moods.filter { $0.uploader == currentUsername }) { mood in
+                            HStack {
+                                Text(mood.emoji)
+                                    .font(.largeTitle)
+                                VStack(alignment: .leading) {
+                                    Text(mood.caption)
+                                        .font(.body)
+                                }
+                                Spacer()
+                                Text(mood.timestamp, style: .time)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
                     }
                 }
+                .listStyle(InsetGroupedListStyle())
                 
                 Button(action: { showAddMood.toggle() }) {
                     HStack {
@@ -113,6 +136,7 @@ struct MoodsView: View {
                     switch result {
                     case .success(let user):
                         currentUsername = user.username
+                        partnerUsername = user.partnerUsername
                     case .failure(let error):
                         print("Failed to fetch user details: \(error.localizedDescription)")
                     }
