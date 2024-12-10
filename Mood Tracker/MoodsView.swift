@@ -54,7 +54,7 @@ struct MoodsView: View {
                         }
                     }
                 }
-                .listStyle(InsetGroupedListStyle())
+                .listStyle(GroupedListStyle())
                 .refreshable {
                     await refreshMoods()
                 }
@@ -231,6 +231,7 @@ struct AllMoodsView: View {
         List(viewModel.moods) { mood in
             MoodRow(mood: mood)
         }
+        .listStyle(PlainListStyle())
         .navigationTitle("\(uploader)'s moods")
         .onAppear {
             viewModel.fetchAllMoods(for: uploader) { moods in
