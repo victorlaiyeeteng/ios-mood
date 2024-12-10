@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ResizableTextField: View {
     @Binding var text: String
-    @State private var textHeight: CGFloat = 40 // Initial height
+    @State private var textHeight: CGFloat = 80 // Initial height
 
     var body: some View {
         ZStack(alignment: .topLeading) {
@@ -35,6 +35,6 @@ struct ResizableTextField: View {
         let size = CGSize(width: UIScreen.main.bounds.width - 64, height: .infinity) // Adjust width
         let attributes = [NSAttributedString.Key.font: font]
         let boundingBox = text.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        textHeight = max(40, boundingBox.height + 16) // Minimum height is 40
+        textHeight = max(100, boundingBox.height + 16) // Minimum height is 40
     }
 }

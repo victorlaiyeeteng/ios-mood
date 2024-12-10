@@ -22,8 +22,8 @@ struct MoodsView: View {
         NavigationView {
             VStack {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Welcome, \(currentUsername.isEmpty ? "User" : currentUsername)")
-                        .font(.headline)
+                    Text("Welcome!")
+                        .font(.title)
                     Text("Here's how you and \(partnerUsername) are feeling...")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
@@ -55,6 +55,9 @@ struct MoodsView: View {
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
+                .refreshable {
+                    await refreshMoods()
+                }
                 
                 Button(action: { showAddMood.toggle() }) {
                     HStack {
@@ -90,13 +93,6 @@ struct MoodsView: View {
                             }
                             .padding()
                             
-                            Button("Share") {
-                                viewModel.uploadMood(emoji: selectedEmoji, caption: newCaption)
-                                showAddMood = false
-                                newCaption = ""
-                                selectedEmoji = "😊"
-                            }
-                            .buttonStyle(.borderedProminent)
                             
                             Spacer()
                         }
@@ -108,6 +104,17 @@ struct MoodsView: View {
                                     newCaption = ""
                                     selectedEmoji = "😊"
                                 }
+                            }
+                            
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Share") {
+                                    viewModel.uploadMood(emoji: selectedEmoji, caption: newCaption)
+                                    showAddMood = false
+                                    newCaption = ""
+                                    selectedEmoji = "😊"
+                                }
+                                .foregroundColor(newCaption.isEmpty ? .gray : .blue)
+                                .disabled(newCaption.isEmpty)
                             }
                         }
                         .navigationTitle("Share Mood")
@@ -132,6 +139,28 @@ struct MoodsView: View {
                     case .failure(let error):
                         print("Failed to fetch user details: \(error.localizedDescription)")
                     }
+                }
+            }
+        }
+    }
+    
+    private func refreshMoods() async {
+        if let userId = Auth.auth().currentUser?.uid {
+            AuthManager().fetchUserDetails(userId: userId) { result in
+                switch result {
+                case .success(let user):
+                    viewModel.fetchLatestMoods(for: user.username, limit: 3) { moods in
+                        DispatchQueue.main.async {
+                            viewModel.userMoods = moods
+                        }
+                    }
+                    viewModel.fetchLatestMoods(for: user.partnerUsername, limit: 3) { moods in
+                        DispatchQueue.main.async {
+                            viewModel.partnerMoods = moods
+                        }
+                    }
+                case .failure(let error):
+                    print("Failed to fetch user details: \(error.localizedDescription)")
                 }
             }
         }
@@ -199,18 +228,15 @@ struct AllMoodsView: View {
     @ObservedObject var viewModel: MoodsViewModel
 
     var body: some View {
-        VStack {
-            Text("how has \(uploader) been feeling")
-                .font(.headline)
-                .padding(.vertical, 16)
-        }
         List(viewModel.moods) { mood in
             MoodRow(mood: mood)
         }
+        .navigationTitle("\(uploader)'s moods")
         .onAppear {
             viewModel.fetchAllMoods(for: uploader) { moods in
                 viewModel.moods = moods
             }
         }
+        
     }
 }

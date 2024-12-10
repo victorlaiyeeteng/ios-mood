@@ -105,7 +105,12 @@ class MoodsViewModel: ObservableObject {
                     if let error = error {
                         print("Error uploading mood: \(error.localizedDescription)")
                     } else {
-                        self.fetchMoods()
+//                        self.fetchMoods()
+                        self.fetchLatestMoods(for: user.username, limit: 3) { moods in
+                            DispatchQueue.main.async {
+                                self.userMoods = moods
+                            }
+                        }
                     }
                 }
                 
