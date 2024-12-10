@@ -16,7 +16,7 @@ struct MoodsView: View {
     @State private var newCaption = ""
     @State private var selectedEmoji = "😊"
     
-    let emojis = ["😊", "😔", "😡", "😴", "😂"]
+    let emojis = ["😊", "😂", "😴", "😔", "😡"]
     
     var body: some View {
         NavigationView {
@@ -33,53 +33,25 @@ struct MoodsView: View {
                 .padding(.vertical, 8)
                 
                 List {
-                    Section(header: Text(partnerUsername.isEmpty ? "user" : partnerUsername)) {
-                        ForEach(viewModel.moods.filter { $0.uploader != currentUsername }) { mood in
-                            HStack {
-                                Text(mood.emoji)
-                                    .font(.largeTitle)
-                                VStack(alignment: .leading) {
-                                    Text(mood.caption)
-                                        .font(.body)
-                                }
-                                Spacer()
-                                VStack(alignment: .trailing) {
-                                    if !isToday(mood.timestamp) {
-                                        Text(formatDate(mood.timestamp))
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                    }
-                                    Text(formatTime(mood.timestamp))
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                    }
-                            }
+                    Section(header: Text(partnerUsername.isEmpty ? "partner" : partnerUsername)) {
+                        ForEach(viewModel.partnerMoods) { mood in
+                            MoodRow(mood: mood)
+                        }
+                        NavigationLink(destination: AllMoodsView(uploader: partnerUsername, viewModel: viewModel)) {
+                            Text("View All")
+                                .foregroundColor(.blue)
                         }
                     }
 
                     Section(header: Text("you")) {
-                        ForEach(viewModel.moods.filter { $0.uploader == currentUsername }) { mood in
-                            HStack {
-                                Text(mood.emoji)
-                                    .font(.largeTitle)
-                                VStack(alignment: .leading) {
-                                    Text(mood.caption)
-                                        .font(.body)
-                                }
-                                Spacer()
-                                VStack(alignment: .trailing) {
-                                    if !isToday(mood.timestamp) {
-                                        Text(formatDate(mood.timestamp))
-                                            .font(.caption)
-                                            .foregroundColor(.secondary)
-                                    }
-                                    Text(formatTime(mood.timestamp))
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                    }
-                            }
+                        ForEach(viewModel.userMoods) { mood in
+                            MoodRow(mood: mood)
                         }
                         .onDelete(perform: deleteMood)
+                        NavigationLink(destination: AllMoodsView(uploader: currentUsername, viewModel: viewModel)) {
+                            Text("View All")
+                                .foregroundColor(.blue)
+                        }
                     }
                 }
                 .listStyle(InsetGroupedListStyle())
@@ -151,12 +123,17 @@ struct MoodsView: View {
                     case .success(let user):
                         currentUsername = user.username
                         partnerUsername = user.partnerUsername
+                        viewModel.fetchLatestMoods(for: currentUsername, limit: 3) { moods in
+                            viewModel.userMoods = moods
+                        }
+                        viewModel.fetchLatestMoods(for: partnerUsername, limit: 3) { moods in
+                            viewModel.partnerMoods = moods
+                        }
                     case .failure(let error):
                         print("Failed to fetch user details: \(error.localizedDescription)")
                     }
                 }
             }
-            viewModel.fetchMoods()
         }
     }
     
@@ -166,7 +143,34 @@ struct MoodsView: View {
             viewModel.deleteMood(moodId: mood.id)
         }
     }
+}
+
+
+struct MoodRow: View {
+    let mood: Mood
     
+    var body: some View {
+        HStack {
+            Text(mood.emoji)
+                .font(.largeTitle)
+            VStack(alignment: .leading) {
+                Text(mood.caption)
+                    .font(.body)
+            }
+            Spacer()
+            VStack(alignment: .trailing) {
+                if !isToday(mood.timestamp) {
+                    Text(formatDate(mood.timestamp))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                Text(formatTime(mood.timestamp))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+        }
+    }
+
     func isToday(_ date: Date) -> Bool {
         return Calendar.current.isDateInToday(date)
     }
@@ -189,6 +193,24 @@ struct MoodsView: View {
     }
 }
 
-//#Preview {
-//    MoodsView()
-//}
+
+struct AllMoodsView: View {
+    let uploader: String
+    @ObservedObject var viewModel: MoodsViewModel
+
+    var body: some View {
+        VStack {
+            Text("how has \(uploader) been feeling")
+                .font(.headline)
+                .padding(.vertical, 16)
+        }
+        List(viewModel.moods) { mood in
+            MoodRow(mood: mood)
+        }
+        .onAppear {
+            viewModel.fetchAllMoods(for: uploader) { moods in
+                viewModel.moods = moods
+            }
+        }
+    }
+}

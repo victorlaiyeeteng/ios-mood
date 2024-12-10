@@ -10,9 +10,61 @@ import FirebaseAuth
 
 class MoodsViewModel: ObservableObject {
     @Published var moods: [Mood] = []
+    @Published var userMoods: [Mood] = []
+    @Published var partnerMoods: [Mood] = []
     private let db = Firestore.firestore()
     private let auth = Auth.auth()
     
+    func fetchLatestMoods(for uploader: String, limit: Int, completion: @escaping ([Mood]) -> Void) {
+        db.collection("moods")
+            .whereField("uploader", isEqualTo: uploader)
+            .order(by: "timestamp", descending: true)
+            .limit(to: limit)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("Error fetching moods: \(error.localizedDescription)")
+                    completion([])
+                    return
+                }
+                
+                let moods = snapshot?.documents.compactMap { doc -> Mood? in
+                    let data = doc.data()
+                    guard let emoji = data["emoji"] as? String,
+                            let caption = data["caption"] as? String,
+                          let timestamp = data["timestamp"] as? Timestamp else {
+                        return nil
+                    }
+                    return Mood(id: doc.documentID, emoji: emoji, caption: caption, uploader: uploader, timestamp: timestamp.dateValue())
+                } ?? []
+                completion(moods)
+            }
+        
+    }
+    
+    func fetchAllMoods(for uploader: String, completion: @escaping ([Mood]) -> Void) {
+        db.collection("moods")
+            .whereField("uploader", isEqualTo: uploader)
+            .order(by: "timestamp", descending: true)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("Error fetching moods: \(error.localizedDescription)")
+                    completion([])
+                    return
+                }
+                
+                let moods = snapshot?.documents.compactMap { doc -> Mood? in
+                    let data = doc.data()
+                    guard let emoji = data["emoji"] as? String,
+                            let caption = data["caption"] as? String,
+                          let timestamp = data["timestamp"] as? Timestamp else {
+                        return nil
+                    }
+                    return Mood(id: doc.documentID, emoji: emoji, caption: caption, uploader: uploader, timestamp: timestamp.dateValue())
+                } ?? []
+                completion(moods)
+            }
+        
+    }
     
     func fetchMoods() {
         db.collection("moods")
