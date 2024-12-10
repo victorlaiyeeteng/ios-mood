@@ -71,6 +71,12 @@
 		9DCA73B92D06FCAB00AE2EF2 /* ResizableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B82D06FCAB00AE2EF2 /* ResizableTextField.swift */; };
 		9DCA73BA2D06FCAB00AE2EF2 /* ResizableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B82D06FCAB00AE2EF2 /* ResizableTextField.swift */; };
 		9DCA73BB2D06FCAB00AE2EF2 /* ResizableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73B82D06FCAB00AE2EF2 /* ResizableTextField.swift */; };
+		9DCA73BD2D083FC100AE2EF2 /* ReactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73BC2D083FC100AE2EF2 /* ReactionsViewModel.swift */; };
+		9DCA73BE2D083FC100AE2EF2 /* ReactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73BC2D083FC100AE2EF2 /* ReactionsViewModel.swift */; };
+		9DCA73BF2D083FC100AE2EF2 /* ReactionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73BC2D083FC100AE2EF2 /* ReactionsViewModel.swift */; };
+		9DCA73C12D083FD100AE2EF2 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73C02D083FD000AE2EF2 /* Reaction.swift */; };
+		9DCA73C22D083FD100AE2EF2 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73C02D083FD000AE2EF2 /* Reaction.swift */; };
+		9DCA73C32D083FD100AE2EF2 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73C02D083FD000AE2EF2 /* Reaction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +119,8 @@
 		9DCA73B02D06E23500AE2EF2 /* Mood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mood.swift; sourceTree = "<group>"; };
 		9DCA73B42D06E52900AE2EF2 /* MoodsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodsViewModel.swift; sourceTree = "<group>"; };
 		9DCA73B82D06FCAB00AE2EF2 /* ResizableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableTextField.swift; sourceTree = "<group>"; };
+		9DCA73BC2D083FC100AE2EF2 /* ReactionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionsViewModel.swift; sourceTree = "<group>"; };
+		9DCA73C02D083FD000AE2EF2 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +204,9 @@
 				9DCA73B02D06E23500AE2EF2 /* Mood.swift */,
 				9DCA73A82D06E11F00AE2EF2 /* MoodsView.swift */,
 				9DCA73B42D06E52900AE2EF2 /* MoodsViewModel.swift */,
+				9DCA73C02D083FD000AE2EF2 /* Reaction.swift */,
 				9DCA73AC2D06E13D00AE2EF2 /* ReactionsView.swift */,
+				9DCA73BC2D083FC100AE2EF2 /* ReactionsViewModel.swift */,
 				9DCA73B82D06FCAB00AE2EF2 /* ResizableTextField.swift */,
 				9DCA73322D02F3E700AE2EF2 /* ContentView.swift */,
 				9DCA739B2D05D5D200AE2EF2 /* UserDetailsView.swift */,
@@ -396,11 +406,13 @@
 			files = (
 				9DCA73B12D06E23500AE2EF2 /* Mood.swift in Sources */,
 				9DCA73332D02F3E700AE2EF2 /* ContentView.swift in Sources */,
+				9DCA73C12D083FD100AE2EF2 /* Reaction.swift in Sources */,
 				9DCA73942D05D53300AE2EF2 /* AuthManager.swift in Sources */,
 				9DCA73312D02F3E700AE2EF2 /* Mood_TrackerApp.swift in Sources */,
 				9DCA73982D05D5A400AE2EF2 /* LoginView.swift in Sources */,
 				9DCA73AD2D06E13D00AE2EF2 /* ReactionsView.swift in Sources */,
 				9DCA73A52D06E09B00AE2EF2 /* MainTabView.swift in Sources */,
+				9DCA73BD2D083FC100AE2EF2 /* ReactionsViewModel.swift in Sources */,
 				9DCA739C2D05D5D200AE2EF2 /* UserDetailsView.swift in Sources */,
 				9DCA73902D05D50700AE2EF2 /* User.swift in Sources */,
 				9DCA73B92D06FCAB00AE2EF2 /* ResizableTextField.swift in Sources */,
@@ -421,9 +433,11 @@
 				9DCA73912D05D50700AE2EF2 /* User.swift in Sources */,
 				9DCA73952D05D53300AE2EF2 /* AuthManager.swift in Sources */,
 				9DCA73AA2D06E11F00AE2EF2 /* MoodsView.swift in Sources */,
+				9DCA73C22D083FD100AE2EF2 /* Reaction.swift in Sources */,
 				9DCA73992D05D5A400AE2EF2 /* LoginView.swift in Sources */,
 				9DCA73422D02F3E800AE2EF2 /* Mood_TrackerTests.swift in Sources */,
 				9DCA73A62D06E09B00AE2EF2 /* MainTabView.swift in Sources */,
+				9DCA73BE2D083FC100AE2EF2 /* ReactionsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,11 +447,13 @@
 			files = (
 				9DCA73B32D06E23500AE2EF2 /* Mood.swift in Sources */,
 				9DCA734E2D02F3E800AE2EF2 /* Mood_TrackerUITestsLaunchTests.swift in Sources */,
+				9DCA73C32D083FD100AE2EF2 /* Reaction.swift in Sources */,
 				9DCA73962D05D53300AE2EF2 /* AuthManager.swift in Sources */,
 				9DCA734C2D02F3E800AE2EF2 /* Mood_TrackerUITests.swift in Sources */,
 				9DCA739A2D05D5A400AE2EF2 /* LoginView.swift in Sources */,
 				9DCA73AF2D06E13D00AE2EF2 /* ReactionsView.swift in Sources */,
 				9DCA73A72D06E09B00AE2EF2 /* MainTabView.swift in Sources */,
+				9DCA73BF2D083FC100AE2EF2 /* ReactionsViewModel.swift in Sources */,
 				9DCA739E2D05D5D200AE2EF2 /* UserDetailsView.swift in Sources */,
 				9DCA73922D05D50700AE2EF2 /* User.swift in Sources */,
 				9DCA73BB2D06FCAB00AE2EF2 /* ResizableTextField.swift in Sources */,
