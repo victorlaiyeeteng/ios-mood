@@ -2,8 +2,9 @@
 
 - [x] login
 - [x] add mood, with caption
-- [ ] add reactions to partner's mood
+- [x] add reactions to partner's mood
 - [x] list past moods with timestamps
-- [ ] notifications to receive moods, reactions
+- [ ] random reaction to pair with shared mood
+- [ ] notifications to receive moods, reminders
 - [ ] *widgets to add mood*
 - [ ] *add photo in mood upload*
