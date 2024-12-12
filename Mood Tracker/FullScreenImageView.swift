@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseStorage
+import FirebaseFirestore
 
 struct FullScreenImageView: View {
     let mediaUrl: String
     @Environment(\.presentationMode) var presentationMode
+    @ObservedObject private var viewModel = ReactionsViewModel()
+    let emoji: String
 
     var body: some View {
         NavigationView {

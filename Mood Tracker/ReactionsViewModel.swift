@@ -36,7 +36,10 @@ class ReactionsViewModel: ObservableObject {
                     let reaction = Reaction(id: emoji, emoji: emoji, mediaUrls: mediaUrls)
                     reactionsDict[emoji] = [reaction]
                 }
-                self.reactionsByEmoji = reactionsDict
+//                self.reactionsByEmoji = reactionsDict
+                DispatchQueue.main.async {
+                    self.reactionsByEmoji = reactionsDict
+                }
             }
     }
     
@@ -73,7 +76,27 @@ class ReactionsViewModel: ObservableObject {
     }
     
     // Delete a reaction
-    func deleteReaction(reactionId: String) {
-        return
+    func deleteImage(for emoji: String, mediaUrl: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let userId = auth.currentUser?.uid else { return }
+        
+        let storageRef = storage.reference(forURL: mediaUrl)
+        storageRef.delete { error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            let userRef = self.db.collection("reactions").document(userId)
+            userRef.updateData([
+                emoji: FieldValue.arrayRemove([mediaUrl])
+            ]) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    self.fetchReactions()
+                    completion(.success(()))
+                }
+            }
+        }
     }
 }
