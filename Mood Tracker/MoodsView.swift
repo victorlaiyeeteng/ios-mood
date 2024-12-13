@@ -8,6 +8,8 @@
 import SwiftUI
 import FirebaseAuth
 
+// TODO: Can click into own mood to view reaction image
+
 struct MoodsView: View {
     @StateObject private var viewModel = MoodsViewModel()
     @State private var currentUsername = ""

@@ -8,6 +8,8 @@
 import FirebaseFirestore
 import FirebaseAuth
 
+// TODO: Randomly generate partner's reaction image to pair with mood
+
 class MoodsViewModel: ObservableObject {
     @Published var moods: [Mood] = []
     @Published var userMoods: [Mood] = []
