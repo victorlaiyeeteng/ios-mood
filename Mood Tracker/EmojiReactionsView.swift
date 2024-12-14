@@ -40,6 +40,7 @@ struct EmojiReactionsView: View {
                                     }
                                 }
                                 .buttonStyle(PlainButtonStyle())
+                                .frame(width: 120, height: 120)
                                 if isEditing {
                                     Button(action: {
                                         showDeleteConfirmation(for: mediaUrl)
@@ -49,7 +50,8 @@ struct EmojiReactionsView: View {
                                             .background(Circle().fill(Color.white))
                                             .frame(width: 24, height: 24)
                                     }
-                                    .offset(x: 50, y: -50)
+                                    .padding(8)
+                                    .contentShape(Rectangle())
                                 }
                             }
                             .frame(width: 120, height: 120)
