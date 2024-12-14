@@ -79,6 +79,7 @@
 		9DCA73C32D083FD100AE2EF2 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73C02D083FD000AE2EF2 /* Reaction.swift */; };
 		9DCA73C52D088F1600AE2EF2 /* EmojiReactionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73C42D088F1600AE2EF2 /* EmojiReactionsView.swift */; };
 		9DCA73C72D08981200AE2EF2 /* FullScreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73C62D08981200AE2EF2 /* FullScreenImageView.swift */; };
+		9DCA73CB2D0D8FEB00AE2EF2 /* NotifMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA73CA2D0D8FEB00AE2EF2 /* NotifMessages.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +126,7 @@
 		9DCA73C02D083FD000AE2EF2 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
 		9DCA73C42D088F1600AE2EF2 /* EmojiReactionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiReactionsView.swift; sourceTree = "<group>"; };
 		9DCA73C62D08981200AE2EF2 /* FullScreenImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullScreenImageView.swift; sourceTree = "<group>"; };
+		9DCA73CA2D0D8FEB00AE2EF2 /* NotifMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifMessages.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 				9DCA73B82D06FCAB00AE2EF2 /* ResizableTextField.swift */,
 				9DCA73322D02F3E700AE2EF2 /* ContentView.swift */,
 				9DCA739B2D05D5D200AE2EF2 /* UserDetailsView.swift */,
+				9DCA73CA2D0D8FEB00AE2EF2 /* NotifMessages.swift */,
 				9DCA73342D02F3E800AE2EF2 /* Assets.xcassets */,
 				9DCA735A2D02F5F600AE2EF2 /* GoogleService-Info.plist */,
 				9DCA73362D02F3E800AE2EF2 /* Preview Content */,
@@ -413,6 +416,7 @@
 				9DCA73B12D06E23500AE2EF2 /* Mood.swift in Sources */,
 				9DCA73332D02F3E700AE2EF2 /* ContentView.swift in Sources */,
 				9DCA73C12D083FD100AE2EF2 /* Reaction.swift in Sources */,
+				9DCA73CB2D0D8FEB00AE2EF2 /* NotifMessages.swift in Sources */,
 				9DCA73942D05D53300AE2EF2 /* AuthManager.swift in Sources */,
 				9DCA73312D02F3E700AE2EF2 /* Mood_TrackerApp.swift in Sources */,
 				9DCA73C72D08981200AE2EF2 /* FullScreenImageView.swift in Sources */,

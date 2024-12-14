@@ -18,27 +18,40 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
-    let reminderMessages = [
-        "Take a moment to relax and enjoy your day! Love, Victor.",
-        "Remember to drink some water and stretch. Nagged by your baby with love!",
-        "You're doing so great! Keep it up! Muacks!",
-        "It's a good time to check in! Hope you're doing well hehe!",
-        "Your baby misses you! Want to update him how you're feeling?"
-    ]
-    
     private func scheduleReminderNotification() {
-        let randomIndex = Int.random(in: 0..<reminderMessages.count)
-        let message = reminderMessages[randomIndex]
-        let content = UNMutableNotificationContent()
-        content.title = "🤍🤍"
-        content.body = message
-        content.sound = .default
+        let singaporeTimeZone = TimeZone(identifier: "Asia/Singapore")!
+        let messageTimes: [(hour: Int, minute: Int)] = [
+            (8, 0),
+            (12, 0),
+            (15, 0),
+            (18, 0),
+            (21, 0),
+            (0, 0)
+        ]
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 14400, repeats: true)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Error scheduling notification: \(error.localizedDescription)")
+        for (index, message) in NotifMessages.messages.enumerated() {
+            let content = UNMutableNotificationContent()
+            content.title = "🤍🤍"
+            content.body = message
+            content.sound = .default
+            var dateComponents = DateComponents()
+            dateComponents.timeZone = singaporeTimeZone
+            dateComponents.hour = messageTimes[index].hour
+            dateComponents.minute = messageTimes[index].minute
+            dateComponents.second = 0
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let request = UNNotificationRequest(
+                identifier: "daily-message-\(index)",
+                content: content,
+                trigger: trigger
+            )
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Error scheduling daily notification \(index + 1): \(error.localizedDescription)")
+                } else {
+                    print("Daily notification \(index + 1) scheduled for \(messageTimes[index].hour):00")
+                }
             }
         }
     }
@@ -53,6 +66,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
        }
    }
 }
+
 
 @main
 struct Mood_TrackerApp: App {
