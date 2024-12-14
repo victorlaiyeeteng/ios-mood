@@ -8,7 +8,6 @@
 import SwiftUI
 import FirebaseAuth
 
-// TODO: Can click into own mood to view reaction image
 
 struct MoodsView: View {
     @StateObject private var viewModel = MoodsViewModel()
@@ -39,7 +38,7 @@ struct MoodsView: View {
                         ForEach(viewModel.partnerMoods) { mood in
                             MoodRow(mood: mood)
                         }
-                        NavigationLink(destination: AllMoodsView(uploader: partnerUsername, viewModel: viewModel)) {
+                        NavigationLink(destination: AllPartnerMoodsView(uploader: partnerUsername, viewModel: viewModel)) {
                             Text("View All")
                                 .foregroundColor(.blue)
                         }
@@ -49,8 +48,13 @@ struct MoodsView: View {
                         ForEach(viewModel.userMoods) { mood in
                             MoodRow(mood: mood)
                         }
-                        .onDelete(perform: deleteMood)
-                        NavigationLink(destination: AllMoodsView(uploader: currentUsername, viewModel: viewModel)) {
+                        .onDelete { offsets in
+                            for index in offsets {
+                                let mood = viewModel.userMoods[index]
+                                deleteMoodView(moodId: mood.id)
+                            }
+                        }
+                        NavigationLink(destination: AllSelfMoodsView(uploader: currentUsername, viewModel: viewModel)) {
                             Text("View All")
                                 .foregroundColor(.blue)
                         }
@@ -168,17 +172,17 @@ struct MoodsView: View {
         }
     }
     
-    private func deleteMood(at offsets: IndexSet) {
-        for index in offsets {
-            let mood = viewModel.moods.filter { $0.uploader == currentUsername }[index]
-            viewModel.deleteMood(moodId: mood.id)
-        }
+    private func deleteMoodView(moodId: String) {
+        viewModel.deleteMood(moodId: moodId)
+        viewModel.userMoods.removeAll { $0.id == moodId}
+        viewModel.moods.removeAll { $0.id == moodId }
     }
 }
 
 
 struct MoodRow: View {
     let mood: Mood
+    @State private var showFullScreenImage = false
     
     var body: some View {
         HStack {
@@ -199,6 +203,13 @@ struct MoodRow: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            showFullScreenImage.toggle()
+        }
+        .sheet(isPresented: $showFullScreenImage) {
+            FullScreenImageView(mediaUrl: mood.reactionMediaUrl, emoji: mood.emoji)
         }
     }
 
@@ -225,13 +236,48 @@ struct MoodRow: View {
 }
 
 
-struct AllMoodsView: View {
+struct AllSelfMoodsView: View {
     let uploader: String
     @ObservedObject var viewModel: MoodsViewModel
 
     var body: some View {
-        List(viewModel.moods) { mood in
-            MoodRow(mood: mood)
+        List {
+            ForEach(viewModel.moods) { mood in
+                MoodRow(mood: mood)
+            }
+            .onDelete{ offsets in
+                for index in offsets {
+                    let mood = viewModel.moods[index]
+                    deleteMoodView(moodId: mood.id)
+                }
+            }
+        }
+        .listStyle(PlainListStyle())
+        .navigationTitle("\(uploader)'s moods")
+        .onAppear {
+            viewModel.fetchAllMoods(for: uploader) { moods in
+                viewModel.moods = moods
+            }
+        }
+        
+    }
+    
+    private func deleteMoodView(moodId: String) {
+        viewModel.deleteMood(moodId: moodId)
+        viewModel.userMoods.removeAll { $0.id == moodId}
+        viewModel.moods.removeAll { $0.id == moodId }
+    }
+}
+
+struct AllPartnerMoodsView: View {
+    let uploader: String
+    @ObservedObject var viewModel: MoodsViewModel
+
+    var body: some View {
+        List {
+            ForEach(viewModel.moods) { mood in
+                MoodRow(mood: mood)
+            }
         }
         .listStyle(PlainListStyle())
         .navigationTitle("\(uploader)'s moods")
@@ -243,3 +289,4 @@ struct AllMoodsView: View {
         
     }
 }
+

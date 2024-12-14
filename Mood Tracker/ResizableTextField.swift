@@ -25,6 +25,7 @@ struct ResizableTextField: View {
             TextEditor(text: $text)
                 .frame(height: textHeight)
                 .padding(4)
+                .autocapitalization(.none)
                 .onChange(of: text) { adjustHeight() } // Adjust height dynamically
         }
         .onAppear(perform: adjustHeight) // Adjust height on appear

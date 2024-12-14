@@ -13,6 +13,5 @@ struct Mood: Identifiable {
     let caption: String
     let uploader: String
     let timestamp: Date
-    
-    // TODO: Attach a reaction's random image
+    let reactionMediaUrl: String
 }

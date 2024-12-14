@@ -8,7 +8,6 @@
 import FirebaseFirestore
 import FirebaseAuth
 
-// TODO: Randomly generate partner's reaction image to pair with mood
 
 class MoodsViewModel: ObservableObject {
     @Published var moods: [Mood] = []
@@ -33,10 +32,11 @@ class MoodsViewModel: ObservableObject {
                     let data = doc.data()
                     guard let emoji = data["emoji"] as? String,
                             let caption = data["caption"] as? String,
-                          let timestamp = data["timestamp"] as? Timestamp else {
+                          let timestamp = data["timestamp"] as? Timestamp,
+                          let reactionMediaUrl = data["reactionMediaUrl"] as? String else {
                         return nil
                     }
-                    return Mood(id: doc.documentID, emoji: emoji, caption: caption, uploader: uploader, timestamp: timestamp.dateValue())
+                    return Mood(id: doc.documentID, emoji: emoji, caption: caption, uploader: uploader, timestamp: timestamp.dateValue(), reactionMediaUrl: reactionMediaUrl)
                 } ?? []
                 completion(moods)
             }
@@ -58,10 +58,11 @@ class MoodsViewModel: ObservableObject {
                     let data = doc.data()
                     guard let emoji = data["emoji"] as? String,
                             let caption = data["caption"] as? String,
-                          let timestamp = data["timestamp"] as? Timestamp else {
+                          let timestamp = data["timestamp"] as? Timestamp,
+                        let reactionMediaUrl = data["reactionMediaUrl"] as? String else {
                         return nil
                     }
-                    return Mood(id: doc.documentID, emoji: emoji, caption: caption, uploader: uploader, timestamp: timestamp.dateValue())
+                    return Mood(id: doc.documentID, emoji: emoji, caption: caption, uploader: uploader, timestamp: timestamp.dateValue(), reactionMediaUrl: reactionMediaUrl)
                 } ?? []
                 completion(moods)
             }
@@ -82,10 +83,11 @@ class MoodsViewModel: ObservableObject {
                     guard let emoji = data["emoji"] as? String,
                             let caption = data["caption"] as? String,
                             let timestamp = data["timestamp"] as? Timestamp,
-                          let uploader = data["uploader"] as? String else {
+                            let uploader = data["uploader"] as? String,
+                            let reactionMediaUrl = data["reactionMediaUrl"] as? String else {
                         return nil
                     }
-                    return Mood(id: doc.documentID, emoji: emoji, caption: caption, uploader: uploader, timestamp: timestamp.dateValue())
+                    return Mood(id: doc.documentID, emoji: emoji, caption: caption, uploader: uploader, timestamp: timestamp.dateValue(), reactionMediaUrl: reactionMediaUrl)
                 } ?? []
             }
     }
@@ -97,29 +99,66 @@ class MoodsViewModel: ObservableObject {
         AuthManager().fetchUserDetails(userId: userId) { result in
             switch result {
             case.success(let user):
-                let newMood: [String: Any] = [
-                    "emoji": emoji,
-                    "caption": caption,
-                    "timestamp": Timestamp(),
-                    "uploader": user.username
-                ]
-                self.db.collection("moods").addDocument(data: newMood) { error in
-                    if let error = error {
-                        print("Error uploading mood: \(error.localizedDescription)")
-                    } else {
-//                        self.fetchMoods()
-                        self.fetchLatestMoods(for: user.username, limit: 3) { moods in
-                            DispatchQueue.main.async {
-                                self.userMoods = moods
+                let partnerUsername = user.partnerUsername
+                
+                self.fetchPartnerReactions(partnerUsername: partnerUsername, emoji: emoji) { reactionUrls in
+                    let randomReactionUrl = reactionUrls.randomElement() ?? "https://firebasestorage.googleapis.com/v0/b/mood-tracker-d7fc3.firebasestorage.app/o/reactions%2Fcoming-soon.jpg?alt=media&token=8be0eadc-a4c2-494d-b6b4-19683bf0f651"
+                    let newMood: [String: Any] = [
+                        "emoji": emoji,
+                        "caption": caption,
+                        "timestamp": Timestamp(),
+                        "uploader": user.username,
+                        "reactionMediaUrl": randomReactionUrl
+                    ]
+                    self.db.collection("moods").addDocument(data: newMood) { error in
+                        if let error = error {
+                            print("Error uploading mood: \(error.localizedDescription)")
+                        } else {
+                            self.fetchLatestMoods(for: user.username, limit: 3) { moods in
+                                DispatchQueue.main.async {
+                                    self.userMoods = moods
+                                }
                             }
                         }
                     }
                 }
-                
             case.failure(let error):
                 print("Error fetching user details: \(error.localizedDescription)")
             }
         }
+    }
+    
+    private func fetchPartnerReactions(partnerUsername: String, emoji: String, completion: @escaping ([String]) -> Void) {
+        db.collection("users").whereField("username", isEqualTo: partnerUsername)
+            .getDocuments { snapshot, error in
+                if let error = error {
+                    print("Error fetching partner's userId: \(error.localizedDescription)")
+                    completion([])
+                    return
+                }
+                guard let documents = snapshot?.documents, let document = documents.first else {
+                    print("No user found with username \(partnerUsername)")
+                    completion([])
+                    return
+                }
+                let partnerUserId = document.documentID
+                
+                print(partnerUserId)
+                
+                self.db.collection("reactions").document(partnerUserId).getDocument { snapshot, error in
+                    if let error = error {
+                        print("Error fetching partner reactions: \(error.localizedDescription)")
+                        completion([])
+                        return
+                    }
+                    if let data = snapshot?.data(),
+                       let emojiReactions = data[emoji] as? [String] {
+                        completion(emojiReactions)
+                    } else {
+                        completion([])
+                    }
+                }
+            }
     }
     
     func deleteMood(moodId: String) {
