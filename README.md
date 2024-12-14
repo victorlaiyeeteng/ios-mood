@@ -5,7 +5,7 @@
 - [x] add reactions
 - [x] list past moods
 - [x] random reaction to pair with shared mood
-- [x] interval reminder notifs
+- [x] scheduled reminder notifs
 - [ ] *mood upload notif*
 - [ ] *widgets to add mood*
 - [ ] *add photo in mood upload*
