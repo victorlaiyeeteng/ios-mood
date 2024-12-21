@@ -1,9 +1,14 @@
-## what does it do
+## swiftui and firebase
 
 - [x] login
 - [x] sync moods
 - [x] sync reactions
 - [x] deal with moods and pair with reactions
 - [x] scheduled reminder notifs
-- [ ] *mood upload notif*
-- [ ] *widgets to add mood*
+
+<p>possible future features</p>
+<ul>
+  <li>mood upload notifications</li>
+  <li>widgets to add mood</li>
+</ul>
+
